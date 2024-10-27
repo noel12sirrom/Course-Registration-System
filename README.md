@@ -1,4 +1,5 @@
 A simplified Course Registration System.
+
 The system should allow students to register for courses, check enrollment status, manage course capacities, and manage 
 waitlists, as well as some additional functions in regards to adding/deleting/editiing students and courses.
 
