@@ -24,13 +24,14 @@ class StudentNode{
         StudentNode(int id, string name){
             this->id = id;
             this->name = name;
+            this->Courses = nullptr;
+            this->next = nullptr;
         }
 
         //incomplete
         void display(){
             cout<<"Name: "<<name<<"\nid: "<<id<<"\nCourses: "<<Courses<<endl;
         }
-
 
 };
 #endif

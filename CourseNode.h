@@ -23,19 +23,16 @@ class CourseNode {
             courseCode ="";
             credits = 0;
             maxCapacity = 0;
+            prerequisite = 0;
+            students = nullptr;
             next = nullptr;
         }
 
 
-        CourseNode(string title, string courseCode, int credits, int maxCapacity, int prerequisite){
-            this->title = title;
-            this->courseCode = courseCode;
-            this->credits = credits;
-            this->maxCapacity = maxCapacity;
-            this->prerequisite = prerequisite;
-            
-        }
-         void display(){
+        CourseNode(string title, string courseCode, int credits, int maxCapacity, int prerequisite)
+            : title(title), courseCode(courseCode), credits(credits), maxCapacity(maxCapacity), prerequisite(prerequisite), students(nullptr), next(nullptr) {}
+
+        void display(){
             cout<<"Title: "<<title<<"\nCourse Code: "<<courseCode<<endl;
         }
 

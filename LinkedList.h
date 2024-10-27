@@ -15,14 +15,14 @@ class LinkedList{
         };
 
         StudentNode defaultStudent[1] ={
-            StudentNode{2111686, "Leon"}
+            StudentNode{2111686, "Leon",}
         };
         
     public:
-        StudentNode * studentNodeHead;
-        CourseNode * courseNodeHead;
+        StudentNode * studentNodeHead=nullptr;
+        CourseNode * courseNodeHead=nullptr;
 
-        CourseNode* studentCourseNodeHead;
+        CourseNode* studentCourseNodeHead = nullptr;
 
         LinkedList(){
             studentNodeHead = nullptr;
@@ -43,14 +43,13 @@ class LinkedList{
             while(current != nullptr){
                 
                 if(current->id == id){
-                    cout<<"found"<<endl;
+                    cout<<"found person"<<endl;
                     return current;
                 }
                 current = current->next;
-                if (current == nullptr){
-                    cout<<"Could not find entry"<<endl;
-                }
             }
+            cout<<"Could not find entry"<<endl;
+            return nullptr;
         }
         CourseNode* courseSearch(string courseCode){
             CourseNode* current = courseNodeHead;
@@ -60,10 +59,9 @@ class LinkedList{
                     return current;
                 }
                 current = current->next;
-                if (current == nullptr){
-                    cout<<"Could not find entry"<<endl;
-                }
             }
+            cout<<"Could not find entry"<<endl;
+            return nullptr;
         }
 
         void addStudent(int id, string name) {
@@ -85,7 +83,7 @@ class LinkedList{
                         previousNode->next = currentNode->next;
                     }
                    delete currentNode;
-                   cout<<"course succesfully removed"<<endl;
+                   cout<<"Course succesfully removed."<<endl;
                    return;
                 }else{
                     previousNode = currentNode;
@@ -94,6 +92,7 @@ class LinkedList{
             }  
         }
         
+         //need to check if course already exists
         void addCourse(string title, string CourseCode, int credits, int maxCapacity, int prerequisite){
             CourseNode* newCourse = new CourseNode(title, CourseCode, credits, maxCapacity, prerequisite);
             newCourse->next = courseNodeHead;
@@ -102,29 +101,29 @@ class LinkedList{
 
 
         void removeCourse(string courseCode){
-            CourseNode* currentNode = courseNodeHead;
+            CourseNode* current = courseNodeHead;
             CourseNode* previousNode = nullptr;
 
-            while(currentNode != nullptr){
+            while(current != nullptr){
 
-                if(currentNode->courseCode == courseCode){
+                if(current->courseCode == courseCode){
                     if(previousNode == nullptr){
-                        courseNodeHead = currentNode->next;
+                        courseNodeHead = current->next;
                     }else{
-                        previousNode->next = currentNode->next;
+                        previousNode->next = current->next;
                     }
-                   delete currentNode;
+                   delete current;
                    return;
                 }else{
-                    previousNode = currentNode;
-                    currentNode = currentNode->next;
+                    previousNode = current;
+                    current = current->next;
                 }    
             }
         }
 
         //if added, minus from capacity (so if there were 50 , 49 left) (1)
         void addCourseToStudent(int studentId){
-            CourseNode*  currentCourseInIteration = courseNodeHead;
+            CourseNode*  current = courseNodeHead;
             StudentNode* Student = studentSearch(studentId);
             string inpCourseCode;
             studentCourseNodeHead = Student->Courses;
@@ -136,39 +135,79 @@ class LinkedList{
             cout<<endl;
             
             //(1) check comment above this comment for number
-            while(currentCourseInIteration!= nullptr){
+            while(current!= nullptr){
                 //if inputed course code is found in list of courses it adds it to the students course.
-                if(inpCourseCode == currentCourseInIteration->courseCode){
-                    CourseNode* newCourseNode = new CourseNode();
-                    *newCourseNode = *currentCourseInIteration;
+                if(inpCourseCode == current->courseCode){
+                    CourseNode* newCourseNode = current;
 
                     newCourseNode->next = studentCourseNodeHead;
-                    studentCourseNodeHead = newCourseNode;
-                    cout << "Added =>"<<endl;
+                    studentCourseNodeHead = newCourseNode;   
 
+                    cout <<"Added =>"<<endl;
                     printCourselist(studentCourseNodeHead);
                     return;
                 }
                 
-                currentCourseInIteration = currentCourseInIteration->next;
-                if(currentCourseInIteration == nullptr){
+                current = current->next;
+                if(current== nullptr){
                     cout << "Course not found."<<endl;
                 }
             }
         }
+
+        void removeCourseFromStudent(int studentId){
+            StudentNode* Student = studentSearch(studentId); // need to add validation that if stuydent doesnt exist then dont continue this 
+            CourseNode*  current = studentCourseNodeHead;
+            CourseNode* previousNode = nullptr;
+            string inpCourseCode;
+            
+            studentCourseNodeHead = Student->Courses;
+
+            printCourselist(studentCourseNodeHead);
+          
+            cout << "Enter the course code of the course you want to remove: ";
+            cin >> inpCourseCode;
+            cout<<endl;
+            
+            //(1) check comment above this comment for number
+            while(current!= nullptr){
+                //if inputed course code is found in list of courses it adds it to the students course.
+                if(inpCourseCode == current->courseCode){
+                     if(previousNode == nullptr){
+                        studentCourseNodeHead = current->next;
+                    }else{
+                        previousNode->next = current->next;
+                    }
+                    delete current;
+                    cout << "Course succesfully removed."<<endl;
+
+                    //printCourselist(studentCourseNodeHead);
+                   return;
+                }else{
+                    previousNode = current;
+                    current = current->next;
+                    
+                    if(current == nullptr){
+                        cout << "Course not found."<<endl;
+                    }
+                    return;
+                }      
+            }     
+        }
+
 
         //prints linkedlist for students
         void printStudentlist(){
             StudentNode* current = studentNodeHead;
             while (current!= nullptr){
                 current->display();
+                cout<<endl;
                 current = current->next;
             }
         }
-      
-        void printCourselist(CourseNode* node){
-            CourseNode* current = node;
-            
+
+        //this can print the list of courses available as well as courses that a student enrolled in by taking the node head as th start of the list
+        void printCourselist(CourseNode* current){
             while (current!= nullptr){
                 current->display();
                 cout<<endl;

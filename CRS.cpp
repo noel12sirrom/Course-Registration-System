@@ -17,6 +17,8 @@ int main(){
     cout<<"enter id"<<endl;
     cin>> id;*/
     ll.addStudent(1234,"ken");
+    ll.printStudentlist();
     ll.addCourseToStudent(1234);
+    ll.removeCourseFromStudent(1234);
     
 }
