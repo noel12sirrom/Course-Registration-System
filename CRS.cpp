@@ -1,4 +1,4 @@
-# include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include "LinkedList.h"
 #include "Stack.h"
@@ -46,8 +46,8 @@ int main(){
     int inp = 0;
     string course = "0";
     
-    //cout << "id: ";
-    //cin>>inp;
+    ll.addCourseToStudent(2111686);
+    ll.addCourseToStack(2111686);
 
 
     

@@ -30,6 +30,16 @@ class CourseNode {
         CourseNode(string title, string courseCode, int credits, int maxCapacity, int prerequisite)
             : title(title), courseCode(courseCode), credits(credits), maxCapacity(maxCapacity), prerequisite(prerequisite), students(nullptr), next(nullptr) {}
 
+        CourseNode(CourseNode* copy){
+            title = copy->title;
+            courseCode = copy->courseCode;
+            credits = copy->credits;
+            maxCapacity = copy->maxCapacity;
+            prerequisite = copy->prerequisite;
+            students = nullptr;
+            next = nullptr;
+        }
+
         void display(){
             cout<<"Title: "<<title<<"\nCourse Code: "<<courseCode<<endl;
         }

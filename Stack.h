@@ -44,8 +44,5 @@ class Stack{
             top->display();
         }
     }
-
-
-
 };
 #endif

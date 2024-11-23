@@ -122,17 +122,75 @@ class LinkedList{
             while(current!= nullptr){
                 //if inputed course code is found in list of courses it adds it to the students course.
                 if(inpCourseCode == current->courseCode){
+
                     CourseNode* newCourseNode = current;
                     StudentNode* newStudentNode = new StudentNode(Student);
 
                     newCourseNode->next = studentCourseNodeHead;
                     studentCourseNodeHead = newCourseNode;  
 
-                    //adds students to course so that we can cound students in a course to check maxcapacity
-                    newStudentNode->next = current->students;
-                    current->students = newStudentNode;
-
                     cout <<"Added =>"<<endl;
+                    printCourselist(studentCourseNodeHead);
+                    return;
+                }
+                
+                current = current->next;
+                if(current== nullptr){
+                    cout << "Course not found."<<endl;
+                }
+            }
+        }
+
+        void addCourseToStack(int studentId){
+            CourseNode*  current = courseNodeHead;
+            StudentNode* Student = studentSearch(studentId);
+            string inpCourseCode;
+            studentCourseNodeHead = Student->Courses;
+
+            //printCourselist(courseNodeHead);
+          
+            cout << "Enter the course code of the course you want to register for : ";
+            cin >> inpCourseCode;
+            cout<<endl;
+            
+            //(1) check comment above this comment for number
+            while(current!= nullptr){
+                //if inputed course code is found in list of courses it adds it to the students course.
+                if(inpCourseCode == current->courseCode){
+                    CourseNode* studentCoursesCurrent = Student->Courses;
+                    bool exists = false;
+                    
+                    //validating if student already has course
+                    while(studentCoursesCurrent!= nullptr){
+
+                        if(current->courseCode == studentCoursesCurrent->courseCode){
+                            exists = true;
+                            cout<<"alreADY HAS COURSE"<<endl;
+                            return;
+                        }
+                        studentCoursesCurrent = studentCoursesCurrent->next;
+                    }
+
+                    if(exists== false){
+                        CourseNode* newCourseNode = new CourseNode(current);
+                         
+
+                        StudentNode* newStudentNode = new StudentNode(Student);
+
+                        //adds students to course so that we can cound students in a course to check maxcapacity
+                        newStudentNode->next = current->students;
+                        current->students = newStudentNode;
+
+                        newCourseNode->students = newStudentNode;
+
+                        S.push(newCourseNode);
+                        cout <<"Added to stack =>"<<endl;
+                        S.peek();
+                    }
+                    
+                   
+
+                   
                     printCourselist(studentCourseNodeHead);
                     return;
                 }
