@@ -28,6 +28,13 @@ class StudentNode{
             this->next = nullptr;
         }
 
+        StudentNode(StudentNode* copy){
+            this->id = copy->id;
+            this->name = copy->name;
+            this->Courses = nullptr;
+            this->next = nullptr;
+        }
+
         //incomplete
         void display(){
             cout<<"Name: "<<name<<"\nid: "<<id<<"\nCourses: "<<Courses<<endl;

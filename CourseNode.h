@@ -5,8 +5,6 @@ using namespace std;
 #ifndef COURSENODE_H
 #define COURSENODE_H
 
-
-
 class CourseNode { 
     public:
         string title;

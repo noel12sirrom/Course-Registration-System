@@ -1,43 +1,27 @@
 #include <iostream>
 #include "StudentNode.h"
 #include "CourseNode.h"
+#include "Stack.h"
 using namespace std;
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
 
+Stack S;
 class LinkedList{
     private:
-        CourseNode defaultCourses[4] = {
-            CourseNode{"Introduction to Math", "0001", 3, 50, NULL},
-            CourseNode{"Discrete Math", "0002", 4, 50, 0001},
-            CourseNode{"Critical Thinking", "0003", 2, 60, NULL},
-            CourseNode{"Academic Writing", "0004", 3, 80, 0003}
-        };
-
-        StudentNode defaultStudent[1] ={
-            StudentNode{2111686, "Leon",}
-        };
+        StudentNode * studentNodeHead;
+        CourseNode * courseNodeHead;
+        CourseNode* studentCourseNodeHead;
         
     public:
-        StudentNode * studentNodeHead=nullptr;
-        CourseNode * courseNodeHead=nullptr;
-
-        CourseNode* studentCourseNodeHead = nullptr;
-
+        
+        
         LinkedList(){
             studentNodeHead = nullptr;
             courseNodeHead = nullptr;
+            studentCourseNodeHead = nullptr;
         }
 
-        //initializes the course linked list with 4 courses already in place (default courses)
-        void initializeDefaultLists(){
-            for(int i = 0; i< 4; i++){
-                addCourse(defaultCourses[i].title, defaultCourses[i].courseCode, defaultCourses[i].credits, defaultCourses[i].maxCapacity, defaultCourses[i].prerequisite);
-            }
-            for(int i = 0; i< 1; i++){
-                addStudent(defaultStudent[i].id, defaultStudent[i].name);
-            }
-        }
         StudentNode* studentSearch(int id){
             StudentNode* current = studentNodeHead;
             while(current != nullptr){
@@ -139,9 +123,14 @@ class LinkedList{
                 //if inputed course code is found in list of courses it adds it to the students course.
                 if(inpCourseCode == current->courseCode){
                     CourseNode* newCourseNode = current;
+                    StudentNode* newStudentNode = new StudentNode(Student);
 
                     newCourseNode->next = studentCourseNodeHead;
-                    studentCourseNodeHead = newCourseNode;   
+                    studentCourseNodeHead = newCourseNode;  
+
+                    //adds students to course so that we can cound students in a course to check maxcapacity
+                    newStudentNode->next = current->students;
+                    current->students = newStudentNode;
 
                     cout <<"Added =>"<<endl;
                     printCourselist(studentCourseNodeHead);
@@ -154,6 +143,8 @@ class LinkedList{
                 }
             }
         }
+
+        
 
         void removeCourseFromStudent(int studentId){
             StudentNode* Student = studentSearch(studentId); // need to add validation that if stuydent doesnt exist then dont continue this 
@@ -213,6 +204,17 @@ class LinkedList{
                 cout<<endl;
                 current = current->next;
             }
+        }
+
+        //error prone do to using direct adress and not using copy constructor
+        void pushCourse(string c){
+            CourseNode*  current = courseNodeHead;
+            
+            if(courseSearch(c)!= nullptr){
+                CourseNode* course = courseSearch(c);
+                S.push(course);
+            }
+            
         }
 };
 #endif

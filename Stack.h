@@ -1,7 +1,10 @@
 #include <iostream>
 #include "StudentNode.h"
-#include "CourseNode.h"
 using namespace std;
+#ifndef STACK_H
+#define STACK_H
+class LinkedList;
+class CourseNode;
 
 class Stack{
     private:
@@ -10,9 +13,8 @@ class Stack{
     public:
     Stack(): top(nullptr){}
     ~Stack(){delete top;}
-    Stack(CourseNode* Top): top(Top) {}
         
-    bool isEmpty() const {
+    bool isEmpty(){
         return top == nullptr;
     }
 
@@ -42,6 +44,8 @@ class Stack{
             top->display();
         }
     }
-    
+
+
 
 };
+#endif
